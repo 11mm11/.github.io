@@ -341,7 +341,7 @@
       refFreqCell.textContent = referenceFrequency.toFixed(2);
       adjWaveformCell.textContent = adjustableWaveform;
       adjFreqCell.textContent = adjustableFrequency.toFixed(2);
-      diffCell.textContent = `<span class="math-inline">\{difference\.toFixed\(2\)\} Hz \(</span>{differencePercentage.toFixed(2)}%)`;
+      diffCell.textContent = `<span class="math-inline">\{difference\.toFixed\(2\)\} Hz \(</span><span class="math-inline">\{differencePercentage\.toFixed\(2)\}\%)</span>`;
 
       // 시도 횟수 표시 업데이트
       attemptCountDisplay.textContent = `시도 횟수: ${attemptCount}`;
