@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>주파수 맞추기</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body { font-family: sans-serif; background-color: #f2f2f2; }
     .container { width: 800px; margin: 0 auto; background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
@@ -21,6 +22,59 @@
     #show-table-button { margin-top: 10px; }
     #best-score { margin-top: 10px; font-size: 18px; color: #d50000; }
     #results-table td {text-align: left;}
+
+    /* 태블릿 */
+     @media (max-width: 850px) {
+       .container {
+         width: 95%;
+       }
+       #result-table th, #result-table td, #results-table th, #results-table td{
+         font-size: 14px;
+         padding: 6px;
+       }
+     }
+    
+     /* 모바일 */
+     @media (max-width: 500px) {
+       .container {
+         width: 100%;
+       }
+    
+       .control-group {
+         flex-direction: column; /* 컨트롤들을 세로로 배열 */
+         align-items: flex-start; /* 왼쪽 정렬 */
+       }
+    
+       .control-group label {
+         width: auto; /* 라벨 너비 자동 조정 */
+         margin-bottom: 5px; /* 라벨 아래 여백 추가 */
+       }
+    
+       .slider-container {
+         width: 100%; /* 슬라이더 컨테이너 너비 100% */
+         margin-right: 0; /* 오른쪽 여백 제거 */
+         margin-bottom: 10px; /* 아래쪽 여백 추가 */
+       }
+    
+       .frequency-input {
+         width: 100%; /* 입력 필드 너비 100% */
+         margin-bottom: 10px; /* 아래쪽 여백 추가 */
+       }
+    
+       .button {
+         margin-bottom: 10px;
+       }
+    
+       #result-table th, #result-table td, #results-table th, #results-table td {
+         font-size: 12px;
+         padding: 4px;
+       }
+       #result-table th:nth-child(1), #result-table td:nth-child(1),
+       #results-table th:nth-child(1), #results-table td:nth-child(1){
+         display: none;
+       }
+     }
+    
   </style>
   <script src="https://www.gstatic.com/firebasejs/11.1.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/11.1.0/firebase-database-compat.js"></script>
