@@ -283,7 +283,10 @@
       if (isReferencePlaying) {
         stopReference();
       } else {
-        playReference();
+        // 조정음이 재생 중이면 기준음을 재생하지 않음
+        if (!isAdjustablePlaying) {
+          playReference();
+        }
       }
     }
 
