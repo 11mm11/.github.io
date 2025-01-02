@@ -292,7 +292,10 @@
       if (isAdjustablePlaying) {
         stopAdjustable();
       } else {
-        playAdjustable();
+        // 기준음이 재생 중이면 조정음을 재생하지 않음
+        if (!isReferencePlaying) { 
+          playAdjustable();
+        }
       }
     }
 
@@ -306,7 +309,7 @@
       referenceOscillator.frequency.value = referenceFrequency;
       referenceOscillator.connect(gainNode);
       referenceOscillator.start();
-      isReferencePlaying = true;
+      isReferencePlaying = true; // 기준음 재생 상태를 true로 설정
       referenceToggleButton.textContent = '■'; // 정지 버튼으로 변경
     }
 
@@ -314,9 +317,10 @@
     function stopReference() {
       if (referenceOscillator) {
         referenceOscillator.stop();
+        referenceOscillator.disconnect();
         referenceOscillator = null;
       }
-      isReferencePlaying = false;
+      isReferencePlaying = false; // 기준음 재생 상태를 false로 설정
       referenceToggleButton.textContent = '▶'; // 재생 버튼으로 변경
     }
 
