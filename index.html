@@ -70,31 +70,6 @@
     <div id="attempt-count">시도 횟수: 0</div>
     <div id="best-score">최고 점수: -</div>
 
-    <div id="share-result">
-      <h3>결과 공유</h3>
-      <label for="nickname">닉네임:</label>
-      <input type="text" id="nickname" placeholder="닉네임 입력">
-      <button id="share-button">결과 공유하기</button>
-    </div>
-
-    <div id="results">
-      <h3>결과 목록</h3>
-      <table id="results-table">
-        <thead>
-          <tr>
-            <th>닉네임</th>
-            <th>기준음 파형</th>
-            <th>기준음 주파수 (Hz)</th>
-            <th>조정음 파형</th>
-            <th>조정음 주파수 (Hz)</th>
-            <th>오차 범위 (Hz)</th>
-            <th>점수</th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-    </div>
 
     <button id="show-table-button" class="button">결과 표 보기</button>
     <table id="result-table" hidden>
@@ -112,6 +87,35 @@
       </tbody>
     </table>
   </div>
+
+  <div id="share-result">
+    <h3>결과 공유</h3>
+    <label for="nickname">닉네임:</label>
+    <input type="text" id="nickname" placeholder="닉네임 입력">
+    <button id="share-button">결과 공유하기</button>
+  </div>
+
+  <div id="results">
+    <h3>결과 목록</h3>
+    <table id="results-table">
+      <thead>
+        <tr>
+          <th>닉네임</th>
+          <th>기준음 파형</th>
+          <th>기준음 주파수 (Hz)</th>
+          <th>조정음 파형</th>
+          <th>조정음 주파수 (Hz)</th>
+          <th>오차 범위 (Hz)</th>
+          <th>점수</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+
+
+  
   <script>
     // Firebase SDK 로드
     const app = firebase.initializeApp(firebaseConfig);
