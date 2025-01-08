@@ -521,9 +521,13 @@
     
                 // 점수 높은 순으로 정렬
                 results.sort((a, b) => {
+                    // 시도 횟수가 숫자가 아니면 Number.MAX_SAFE_INTEGER를 사용
+                    const attemptCountA = typeof a.attemptCount === 'number' ? a.attemptCount : Number.MAX_SAFE_INTEGER;
+                    const attemptCountB = typeof b.attemptCount === 'number' ? b.attemptCount : Number.MAX_SAFE_INTEGER;
+                
                     // 시도 횟수로 오름차순 정렬
-                    if (a.attemptCount !== b.attemptCount) {
-                        return a.attemptCount - b.attemptCount;
+                    if (attemptCountA !== attemptCountB) {
+                        return attemptCountA - attemptCountB;
                     }
                     // 시도 횟수가 같으면 점수로 내림차순 정렬
                     return b.score - a.score;
