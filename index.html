@@ -232,11 +232,13 @@
       while (v === 0) v = Math.random(); // 0을 피하기 위해
       let num = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
       num = Math.exp(num * stdDev + mean); // 로그 스케일로 변환
+      /*
       if (num < 50) {
         num = generateNormalRandomLogScale(mean, stdDev);
       } else if (referenceFrequency > 4500) {
         num = generateNormalRandomLogScale(mean, stdDev);
       }
+      */
       return num;
     }
 
@@ -270,14 +272,19 @@
       let meanFrequencyLog = Math.log(desiredMeanFrequency); // 평균 주파수의 로그값
       let stdDevFrequencyLog = Math.log(3520 / 110) / 3; // 표준 편차 조정 (80%의 데이터가 더 좁은 범위에 분포하도록)
       referenceFrequency = generateNormalRandomLogScale(meanFrequencyLog, stdDevFrequencyLog);
-/*
+
       // 주파수 범위 제한
+      while (referenceFrequency < 50) || (referenceFrequency > 4500); {
+        referenceFrequency = generateNormalRandomLogScale(meanFrequencyLog, stdDevFrequencyLog);
+      }
+      /*
       if (referenceFrequency < 50) {
         referenceFrequency = 50;
       } else if (referenceFrequency > 4500) {
         referenceFrequency = 4500;
       }
       */
+      
 
       // 조정음 주파수 초기화 (440Hz)
       adjustableFrequency = 440;
