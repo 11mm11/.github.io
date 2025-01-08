@@ -510,6 +510,11 @@
     referenceToggleButton.addEventListener('click', toggleReference);
     adjustableToggleButton.addEventListener('click', toggleAdjustable);
 
+    // 페이지 로드 시 랜덤 기준음 생성
+    window.addEventListener('DOMContentLoaded', () => {
+      generateNewReference(); 
+    });
+
     // 표 보이기/숨기기 버튼 이벤트 리스너
     showTableButton.addEventListener('click', () => {
       resultTable.hidden = !resultTable.hidden;
