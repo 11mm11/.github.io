@@ -230,10 +230,10 @@
       while (v === 0) v = Math.random(); // 0을 피하기 위해
       let num = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
       num = Math.exp(num * stdDev + mean); // 로그 스케일로 변환
-      if (referenceFrequency < 50) {
-        referenceFrequency = generateNormalRandomLogScale(mean, stdDev);
+      if (num < 50) {
+        num = generateNormalRandomLogScale(mean, stdDev);
       } else if (referenceFrequency > 4500) {
-        referenceFrequency = generateNormalRandomLogScale(mean, stdDev);
+        num = generateNormalRandomLogScale(mean, stdDev);
       }
       return num;
     }
