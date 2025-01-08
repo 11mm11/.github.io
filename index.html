@@ -97,9 +97,9 @@
     <h1>주파수 맞추기</h1>
 
     <div class="control-group">
-      <button id="new-reference" class="button">새 generateNormalRandomLogScale</button>
+      <button id="new-reference" class="button">새 기준음</button>
       <button id="reference-toggle" class="button toggle-button">▶</button>
-      <label for="reference-toggle">generateNormalRandomLogScale</label>
+      <label for="reference-toggle">기준음</label>
     </div>
 
     <div class="control-group">
@@ -130,8 +130,8 @@
       <thead>
         <tr>
           <th>시도 횟수</th>
-          <th>generateNormalRandomLogScale 파형</th>
-          <th>generateNormalRandomLogScale 주파수 (Hz)</th>
+          <th>기준음 파형</th>
+          <th>기준음 주파수 (Hz)</th>
           <th>조정음 파형</th>
           <th>조정음 주파수 (Hz)</th>
           <th>오차 범위 (Hz)</th>
@@ -155,8 +155,8 @@
         <thead>
           <tr>
             <th>닉네임</th>
-            <th>generateNormalRandomLogScale 파형</th>
-            <th>generateNormalRandomLogScale 주파수 (Hz)</th>
+            <th>기준음 파형</th>
+            <th>기준음 주파수 (Hz)</th>
             <th>조정음 파형</th>
             <th>조정음 주파수 (Hz)</th>
             <th>오차 범위 (Hz)</th>
@@ -182,14 +182,14 @@
     // AudioContext 생성
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-    // generateNormalRandomLogScale 및 조정음 관련 변수
+    // 기준음 및 조정음 관련 변수
     let referenceOscillator;
     let adjustableOscillator;
     let referenceWaveform = 'sine'; // 기본값
     let referenceFrequency = 440; //기준 주파수
     let adjustableWaveform = 'sine'; //조정음 파형 기본값
     let adjustableFrequency = 440; //조정음 주파수
-    let isReferencePlaying = false; // generateNormalRandomLogScale 재생 상태
+    let isReferencePlaying = false; // 기준음 재생 상태
     let isAdjustablePlaying = false; // 조정음 재생 상태
 
     // 볼륨 조절을 위한 GainNode 생성
@@ -230,13 +230,11 @@
       while (v === 0) v = Math.random(); // 0을 피하기 위해
       let num = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
       num = Math.exp(num * stdDev + mean); // 로그 스케일로 변환
-      
       if (referenceFrequency < 50) {
         referenceFrequency = generateNormalRandomLogScale(mean, stdDev);
       } else if (referenceFrequency > 4500) {
         referenceFrequency = generateNormalRandomLogScale(mean, stdDev);
       }
-      
       return num;
     }
 
@@ -256,12 +254,12 @@
       return linearScaleValue;
     }
 
-    // 새 generateNormalRandomLogScale 생성 함수 (generateNormalRandomLogScale + 조정음 파형 랜덤 설정)
+    // 새 기준음 생성 함수 (기준음 + 조정음 파형 랜덤 설정)
     function generateNewReference() {
-      // generateNormalRandomLogScale 파형 랜덤 선택
-      refe renceWaveform = waveforms[Math.floor(Math.random() * waveforms.length)];
+      // 기준음 파형 랜덤 선택
+      referenceWaveform = waveforms[Math.floor(Math.random() * waveforms.length)];
 
-      // 조정음 파형을 generateNormalRandomLogScale과 다르게 선택
+      // 조정음 파형을 기준음과 다르게 선택
       const availableWaveforms = waveforms.filter(waveform => waveform !== referenceWaveform);
       adjustableWaveform = availableWaveforms[Math.floor(Math.random() * availableWaveforms.length)];
 
@@ -270,15 +268,14 @@
       let meanFrequencyLog = Math.log(desiredMeanFrequency); // 평균 주파수의 로그값
       let stdDevFrequencyLog = Math.log(3520 / 110) / 3; // 표준 편차 조정 (80%의 데이터가 더 좁은 범위에 분포하도록)
       referenceFrequency = generateNormalRandomLogScale(meanFrequencyLog, stdDevFrequencyLog);
-
 /*
-       주파수 범위 제한
+      // 주파수 범위 제한
       if (referenceFrequency < 50) {
         referenceFrequency = 50;
       } else if (referenceFrequency > 4500) {
         referenceFrequency = 4500;
       }
-*/
+      */
 
       // 조정음 주파수 초기화 (440Hz)
       adjustableFrequency = 440;
@@ -288,12 +285,12 @@
       frequencyInput.value = adjustableFrequency.toFixed(2);
     }
 
-    // generateNormalRandomLogScale 재생/정지 함수
+    // 기준음 재생/정지 함수
     function toggleReference() {
       if (isReferencePlaying) {
         stopReference();
       } else {
-        // 조정음이 재생 중이면 generateNormalRandomLogScale을 재생하지 않음
+        // 조정음이 재생 중이면 기준음을 재생하지 않음
         if (!isAdjustablePlaying) {
           playReference();
         }
@@ -305,14 +302,14 @@
       if (isAdjustablePlaying) {
         stopAdjustable();
       } else {
-        // generateNormalRandomLogScale이 재생 중이면 조정음을 재생하지 않음
+        // 기준음이 재생 중이면 조정음을 재생하지 않음
         if (!isReferencePlaying) { 
           playAdjustable();
         }
       }
     }
 
-    // generateNormalRandomLogScale 재생 함수
+    // 기준음 재생 함수
     function playReference() {
       if (referenceOscillator) {
         stopReference();
@@ -322,18 +319,18 @@
       referenceOscillator.frequency.value = referenceFrequency;
       referenceOscillator.connect(gainNode);
       referenceOscillator.start();
-      isReferencePlaying = true; // generateNormalRandomLogScale 재생 상태를 true로 설정
+      isReferencePlaying = true; // 기준음 재생 상태를 true로 설정
       referenceToggleButton.textContent = '■'; // 정지 버튼으로 변경
     }
 
-    // generateNormalRandomLogScale 정지 함수
+    // 기준음 정지 함수
     function stopReference() {
       if (referenceOscillator) {
         referenceOscillator.stop();
         referenceOscillator.disconnect();
         referenceOscillator = null;
       }
-      isReferencePlaying = false; // generateNormalRandomLogScale 재생 상태를 false로 설정
+      isReferencePlaying = false; // 기준음 재생 상태를 false로 설정
       referenceToggleButton.textContent = '▶'; // 재생 버튼으로 변경
     }
 
