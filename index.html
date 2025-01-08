@@ -135,6 +135,7 @@
           <th>조정음 파형</th>
           <th>조정음 주파수 (Hz)</th>
           <th>오차 범위 (Hz)</th>
+          <th>점수</th>
         </tr>
       </thead>
       <tbody>
@@ -160,6 +161,7 @@
             <th>조정음 파형</th>
             <th>조정음 주파수 (Hz)</th>
             <th>오차 범위 (Hz)</th>
+            <th>시도 횟수</th>
             <th>점수</th>
           </tr>
         </thead>
@@ -453,6 +455,7 @@
         adjustableWaveform: adjustableWaveform,
         adjustableFrequency: adjustableFrequency.toFixed(2),
         difference: Math.abs(referenceFrequency - adjustableFrequency).toFixed(2),
+        attemptCount: attemptCount,
         score: calculateScore(Math.abs(referenceFrequency - adjustableFrequency), referenceFrequency).toFixed(2),
         timestamp: Date.now() // 타임스탬프 추가
       };
@@ -482,6 +485,9 @@
         newRow.insertCell().textContent = result.adjustableWaveform;
         newRow.insertCell().textContent = result.adjustableFrequency;
         newRow.insertCell().textContent = result.difference;
+        //newRow.insertCell().textContent = result.attemptCount; 
+        const attemptCountCell = newRow.insertCell();
+        attemptCountCell.textContent = result.attemptCount ? result.attemptCount : "-"; 
         newRow.insertCell().textContent = result.score;
       });
     });
