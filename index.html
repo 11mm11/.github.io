@@ -472,6 +472,7 @@
         .then(() => {
           alert('결과가 공유되었습니다.');
           nicknameInput.value = ''; // 닉네임 입력 필드 초기화
+          updateResultsTable();
         })
         .catch((error) => {
           console.error('결과 저장 오류:', error);
@@ -505,11 +506,60 @@
       return Math.max(0, 100 - differencePercentage);
     }
 
+    // 결과를 가져와서 정렬하고 테이블에 표시하는 함수 (추가)
+    const updateResultsTable = () => {
+        databaseRef.orderByChild('score').once('value') // once를 쓰면 실시간 업데이트는 안되지만, orderbychild를 쓸수 있음
+            .then((snapshot) => {
+                resultsTableBody.innerHTML = ''; // 테이블 내용 초기화
+                let rank = 1;
+                const results = [];
+    
+                // 데이터를 배열에 저장
+                snapshot.forEach((childSnapshot) => {
+                    results.push(childSnapshot.val());
+                });
+    
+                // 점수 높은 순으로 정렬
+                results.sort((a, b) => {
+                    // 시도 횟수로 오름차순 정렬
+                    if (a.attemptCount !== b.attemptCount) {
+                        return a.attemptCount - b.attemptCount;
+                    }
+                    // 시도 횟수가 같으면 점수로 내림차순 정렬
+                    return b.score - a.score;
+                });
+      
+                // 정렬된 결과 테이블에 추가
+                results.forEach((result) => {
+                    const newRow = resultsTableBody.insertRow();
+                    newRow.insertCell().textContent = rank++;
+                    newRow.insertCell().textContent = result.nickname;
+                    newRow.insertCell().textContent = result.referenceWaveform;
+                    newRow.insertCell().textContent = result.referenceFrequency;
+                    newRow.insertCell().textContent = result.adjustableWaveform;
+                    newRow.insertCell().textContent = result.adjustableFrequency;
+                    newRow.insertCell().textContent = result.difference;
+                    const attemptCountCell = newRow.insertCell();
+                    attemptCountCell.textContent = result.attemptCount ? result.attemptCount : "-";
+                    newRow.insertCell().textContent = result.score;
+                });
+            })
+            .catch((error) => {
+                console.error('결과 로드 오류:', error);
+            });
+    };
+
     // 버튼 이벤트 리스너
     newReferenceButton.addEventListener('click', generateNewReference);
     referenceToggleButton.addEventListener('click', toggleReference);
     adjustableToggleButton.addEventListener('click', toggleAdjustable);
 
+    // 주기적으로 결과 목록을 업데이트하는 함수
+    setInterval(updateResultsTable, 10000);
+    
+    // 페이지 로드 시 결과 목록 업데이트
+    updateResultsTable();
+    
     // 페이지 로드 시 랜덤 기준음 생성
     window.addEventListener('DOMContentLoaded', () => {
       generateNewReference(); 
